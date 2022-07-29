@@ -23,7 +23,7 @@ class CreateMascotasTable extends Migration
             // $table->string('raza');
 
             $table->unsignedBigInteger('id_raza');
-            $table->foreign("id_raza")->references('id')->on("razamascotas")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_raza")->references('id')->on("razas")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }

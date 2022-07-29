@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mascota;
+use App\Models\Raza;
 use Illuminate\Http\Request;
 
 class MascotaController extends Controller
@@ -14,7 +15,9 @@ class MascotaController extends Controller
      */
     public function index()
     {
-        return view('mascota.index');
+        $mascota =Mascota::simplePaginate(4);
+        $raza= Raza::simplePaginate(4);
+        return view('mascota.index',compact('raza','mascota'));
     }
 
     /**
@@ -24,8 +27,8 @@ class MascotaController extends Controller
      */
     public function create()
     {
-        // $raza = 
-        return view('mascota.create');
+        $raza = Raza::all();
+        return view('mascota.create',compact('raza'));
     }
 
     /**
@@ -41,9 +44,9 @@ class MascotaController extends Controller
         $mascota->categoria = $request->categoria;
         $mascota->foto = $request->foto;
         $mascota->genero = $request->genero;
-        $mascota->id_raza = $request->id_raza;
+        $mascota->id_raza = $request->raza;
         $mascota->save();
-        return resource()->route('mascota');
+        return redirect()->route('mascota.create');
     }
 
     /**
@@ -63,9 +66,12 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mascota $mascota)
+    public function edit($id)
     {
-        //
+
+        $mascota=Mascota::find($id);
+        $raza =Raza::get();
+        return view('mascota.edit', compact('mascota','raza'));
     }
 
     /**
@@ -75,9 +81,16 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mascota $mascota)
+    public function update(Request $request,$id)
     {
-        //
+        $mascota=Mascota::find($id);
+        $mascota->nombre = $request->nombre;
+        $mascota->categoria = $request->categoria;
+        $mascota->foto = $request->foto;
+        $mascota->genero = $request->genero;
+        $mascota->id_raza = $request->raza;
+        $mascota->save();
+        return redirect()->route('mascota.index');
     }
 
     /**
@@ -86,8 +99,10 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mascota $mascota)
+    public function destroy($id)
     {
-        //
+        $mascota=Mascota::find($id);
+        $mascota->delete();
+        return redirect()->route('mascota.index');
     }
 }

@@ -16,7 +16,7 @@
               <select id="raza " name="raza" class="rounded-pill form-select custom-select " required="required">
                 <option value="..">Seleccione Raza....</option>
                 @foreach ($raza as $r)
-                    <option value=""></option>
+                    <option value="{{$r->id}}">{{$r->nombre_raza}}</option>
                 @endforeach
                 
               </select>
@@ -47,7 +47,7 @@
               <select id="genero" name="genero" class="rounded-pill form-select form-select custom-select " required="required">
                 <option value="..">Seleccione Genero....</option>
                 
-                <option value="Perro">Perro</option>
+                <option value="macho">Macho</option>
                 <option value="hembra">Hembra</option>
 
               </select>
